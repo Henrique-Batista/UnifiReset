@@ -5,10 +5,19 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+	<PublishDir>exe\</PublishDir>
+	<PublishProtocol>FileSystem</PublishProtocol>
+	<_TargetId>Folder</_TargetId>
+	<TargetFramework>net8.0</TargetFramework>
+	<RuntimeIdentifier>win-x64</RuntimeIdentifier>
+	<SelfContained>true</SelfContained>
+	<PublishSingleFile>true</PublishSingleFile>
+	<PublishReadyToRun>false</PublishReadyToRun>
+	<PublishTrimmed>false</PublishTrimmed>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MongoDB.Driver" Version="2.28.0" />
+    <PackageReference Include="MongoDB.Driver" Version="2.29.0" />
   </ItemGroup>
 
   <ItemGroup>
