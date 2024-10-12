@@ -17,6 +17,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="exe\**" />
+    <EmbeddedResource Remove="exe\**" />
+    <None Remove="exe\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="MongoDB.Driver" Version="2.29.0" />
   </ItemGroup>
 
