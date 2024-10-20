@@ -4,30 +4,71 @@ using System.Diagnostics;
 
 string? enderecoBanco = null;
 string? portaBanco = null;
-MongoClient client = null;
-IMongoDatabase database = null;
-IMongoCollection<BsonDocument> collection = null;
-FilterDefinition<BsonDocument> filter = null;
+MongoClient? client = null;
+IMongoDatabase? database = null;
+IMongoCollection<BsonDocument>? collection = null;
+FilterDefinition<BsonDocument>? filter = null;
 BsonDocument? document = null;
 BsonValue? x_shadow = null;
 BsonValue? id = null;
 BsonValue? username = null;
-string senha = null;
-string senhaCriptografada = null;
-
+string? senha = null;
+string? senhaCriptografada = null;
+var indexEndereco = (Array.IndexOf(args, "-e") == -1) ? Array.IndexOf(args, "--endereco") : Array.IndexOf(args, "-e");
+var indexPorta = (Array.IndexOf(args, "-p") == -1) ? Array.IndexOf(args, "--porta") : Array.IndexOf(args, "-p");
 
 Console.WriteLine("Este programa realiza o acesso ao banco de dados local do Unifi Controller e altera o hash da senha armazenada para o primeiro usuario admin.\n");
 
-Console.WriteLine("\nInforme o endereco do banco ( Deixe vazio para utilizar o padrao localhost )");
-enderecoBanco = Console.ReadLine();
-Console.WriteLine("Informe a porta do banco ( Deixe vazio para utilizar o padrao 27117 )");
-portaBanco = Console.ReadLine();
+if ((Array.IndexOf(args, "-h") != -1) || (Array.IndexOf(args, "--help") != -1))
+{
+    Console.WriteLine(
+    @"Ajuda:
+             Sintaxe: UnfiReset.exe --endereco localhost --porta 27117
+                      UnfiReset.exe -e localhost -p 27117
+             
+             Se não forem fornecidos argumentos de linha de comando, o programa solicitará o endereco e/ou porta do banco de dados.
 
+             Retorno: Senha criptografada
+                      Nome do usuario alterado, Id do usuario alterado
+        "
+        );
+    return 0;
+}
 
-Console.Write("Tentando conectar no banco...");
 try
 {
+    if (indexEndereco == -1)
+    {
+        Console.WriteLine("\nInforme o endereco do banco ( Deixe vazio para utilizar o padrao localhost )");
+        enderecoBanco = Console.ReadLine();
+    }
+    else
+    {
+        enderecoBanco = args[indexEndereco + 1];
+        Console.WriteLine($"Utilizando argumento {enderecoBanco} como endereco do bancos de dados");
+    }
 
+    if (indexPorta == -1)
+    {
+        Console.WriteLine("Informe a porta do banco ( Deixe vazio para utilizar o padrao 27117 )");
+        portaBanco = Console.ReadLine();
+    }
+    else
+    {
+        portaBanco = args[indexPorta + 1];
+        Console.WriteLine($"Utilizando argumento {portaBanco} como porta do banco de dados");
+    }
+}
+catch
+{
+    Console.WriteLine("Foram fornecidos argumentos incompativeis para o endereco ou porta do banco de dados. Favor utilizar o esquema \"--endereco {endereco} --porta {porta}\" ou \"-e {endereco} -p {porta}\".");
+    return 3;
+}
+
+Console.Write("Tentando conectar no banco...");
+
+try
+{
     ConectaBanco(enderecoBanco, portaBanco);
     GeraInterface();
     if (senha != String.Empty)
@@ -40,10 +81,12 @@ catch (TimeoutException)
 {
     Console.WriteLine(
         "\nHouve um problema para se conectar ao banco, por favor verifique se ele esta online, se o endereco esta correto e se esta funcionando na porta informada.");
+    return 1;
 }
 catch (Exception)
 {
     Console.WriteLine("\nHouve algum problema na aplicacao, por favor contate o desenvolvedor.");
+    return 2;
 }
 
 void GeraInterface(){
@@ -101,8 +144,9 @@ void ExibeInfo()
     Console.WriteLine("Nome do usuario:" + username + "\nId do usuario:" + id + "\n");
     // Atualiza o banco de dados com a informacao da senha
     var update = Builders<BsonDocument>.Update.Set("x_shadow", senhaCriptografada);
-    collection.UpdateOne(filter, update);
+    collection?.UpdateOne(filter, update);
 }
 
 Console.WriteLine("\nPrograma finalizado, digite qualquer tecla para encerrar.");
 Console.ReadKey();
+return 0;
