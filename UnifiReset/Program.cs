@@ -32,6 +32,7 @@ if ((Array.IndexOf(args, "-h") != -1) || (Array.IndexOf(args, "--help") != -1))
              Retorno: Senha criptografada
                       Nome do usuario alterado, Id do usuario alterado"
         );
+    Console.ReadKey();
     return 0;
 }
 
@@ -68,6 +69,7 @@ try
 catch
 {
     Console.WriteLine("Foram fornecidos argumentos incompativeis para o endereco ou porta do banco de dados. Favor utilizar o esquema \"--endereco {endereco} --porta {porta}\" ou \"-e {endereco} -p {porta}\".");
+    Console.ReadKey();
     return 3;
 }
 
@@ -87,14 +89,20 @@ catch (TimeoutException)
 {
     Console.WriteLine(
         "\nHouve um problema para se conectar ao banco, por favor verifique se ele esta online, se o endereco esta correto e se esta funcionando na porta informada.");
+    Console.ReadKey();
     return 1;
 }
 catch (Exception)
 {
     Console.WriteLine("\nHouve algum problema na aplicacao, por favor contate o desenvolvedor.");
+    Console.ReadKey();
     return 2;
 }
-
+finally
+{
+    Console.WriteLine("\nPrograma finalizado, digite qualquer tecla para encerrar.");
+    Console.ReadKey();
+}
 void GeraInterface(){
     Console.Write("OK");
     Console.WriteLine("\nDigite a nova senha");
@@ -152,7 +160,4 @@ void ExibeInfo()
     var update = Builders<BsonDocument>.Update.Set("x_shadow", senhaCriptografada);
     collection?.UpdateOne(filter, update);
 }
-
-Console.WriteLine("\nPrograma finalizado, digite qualquer tecla para encerrar.");
-Console.ReadKey();
 return 0;
