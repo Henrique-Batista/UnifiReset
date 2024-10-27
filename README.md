@@ -1,9 +1,9 @@
 # UnifiReset
 
-             Sintaxe: UnfiReset.exe --endereco localhost --porta 27117
-                      UnfiReset.exe -e localhost -p 27117
+             Sintaxe: UnfiReset.exe --endereco localhost --porta 27117 --senha Teste
+                      UnfiReset.exe -e localhost -p 27117 -s Teste
              
-             Se não forem fornecidos argumentos de linha de comando, o programa solicitará o endereco e/ou porta do banco de dados.
+             Se não forem fornecidos argumentos de linha de comando, o programa solicitará o endereco e/ou porta do banco de dados e/ou senha.
 
              Retorno: Senha criptografada
                       Nome do usuario alterado, Id do usuario alterado

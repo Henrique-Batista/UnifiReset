@@ -16,6 +16,7 @@ string? senha = null;
 string? senhaCriptografada = null;
 var indexEndereco = (Array.IndexOf(args, "-e") == -1) ? Array.IndexOf(args, "--endereco") : Array.IndexOf(args, "-e");
 var indexPorta = (Array.IndexOf(args, "-p") == -1) ? Array.IndexOf(args, "--porta") : Array.IndexOf(args, "-p");
+var indexSenha = (Array.IndexOf(args, "-s") == -1) ? Array.IndexOf(args, "--senha") : Array.IndexOf(args, "-s");
 
 Console.WriteLine("Este programa realiza o acesso ao banco de dados local do Unifi Controller e altera o hash da senha armazenada para o primeiro usuario admin.\n");
 
@@ -23,14 +24,13 @@ if ((Array.IndexOf(args, "-h") != -1) || (Array.IndexOf(args, "--help") != -1))
 {
     Console.WriteLine(
     @"Ajuda:
-             Sintaxe: UnfiReset.exe --endereco localhost --porta 27117
-                      UnfiReset.exe -e localhost -p 27117
+             Sintaxe: UnfiReset.exe --endereco localhost --porta 27117 --senha Teste
+                      UnfiReset.exe -e localhost -p 27117 -s Teste
              
-             Se não forem fornecidos argumentos de linha de comando, o programa solicitará o endereco e/ou porta do banco de dados.
+             Se não forem fornecidos argumentos de linha de comando, o programa solicitará o endereco e/ou porta do banco de dados e/ou senha.
 
              Retorno: Senha criptografada
-                      Nome do usuario alterado, Id do usuario alterado
-        "
+                      Nome do usuario alterado, Id do usuario alterado"
         );
     return 0;
 }
@@ -57,6 +57,12 @@ try
     {
         portaBanco = args[indexPorta + 1];
         Console.WriteLine($"Utilizando argumento {portaBanco} como porta do banco de dados");
+    }
+    
+    if (indexSenha != -1)
+    {
+        senha = args[indexSenha + 1];
+        Console.WriteLine($"Utilizando argumento {senha} como senha");
     }
 }
 catch
@@ -92,7 +98,7 @@ catch (Exception)
 void GeraInterface(){
     Console.Write("OK");
     Console.WriteLine("\nDigite a nova senha");
-    senha = Console.ReadLine();
+    senha ??= Console.ReadLine();
     Console.WriteLine();
 }
 void ConectaBanco(string? endereco, string? porta)
