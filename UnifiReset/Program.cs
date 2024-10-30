@@ -14,16 +14,17 @@ BsonValue? id = null;
 BsonValue? username = null;
 string? senha = null;
 string? senhaCriptografada = null;
-var indexEndereco = (Array.IndexOf(args, "-e") == -1) ? Array.IndexOf(args, "--endereco") : Array.IndexOf(args, "-e");
-var indexPorta = (Array.IndexOf(args, "-p") == -1) ? Array.IndexOf(args, "--porta") : Array.IndexOf(args, "-p");
-var indexSenha = (Array.IndexOf(args, "-s") == -1) ? Array.IndexOf(args, "--senha") : Array.IndexOf(args, "-s");
+var indexEndereco = Array.IndexOf(args, "-e") == -1 ? Array.IndexOf(args, "--endereco") : Array.IndexOf(args, "-e");
+var indexPorta = Array.IndexOf(args, "-p") == -1 ? Array.IndexOf(args, "--porta") : Array.IndexOf(args, "-p");
+var indexSenha = Array.IndexOf(args, "-s") == -1 ? Array.IndexOf(args, "--senha") : Array.IndexOf(args, "-s");
 
-Console.WriteLine("Este programa realiza o acesso ao banco de dados local do Unifi Controller e altera o hash da senha armazenada para o primeiro usuario admin.\n");
+Console.WriteLine(
+    "Este programa realiza o acesso ao banco de dados local do Unifi Controller e altera o hash da senha armazenada para o primeiro usuario admin.\n");
 
-if ((Array.IndexOf(args, "-h") != -1) || (Array.IndexOf(args, "--help") != -1))
+if (Array.IndexOf(args, "-h") != -1 || Array.IndexOf(args, "--help") != -1)
 {
     Console.WriteLine(
-    @"Ajuda:
+        @"Ajuda:
              Sintaxe: UnfiReset.exe --endereco localhost --porta 27117 --senha Teste
                       UnfiReset.exe -e localhost -p 27117 -s Teste
              
@@ -31,7 +32,7 @@ if ((Array.IndexOf(args, "-h") != -1) || (Array.IndexOf(args, "--help") != -1))
 
              Retorno: Senha criptografada
                       Nome do usuario alterado, Id do usuario alterado"
-        );
+    );
     Console.ReadKey();
     return 0;
 }
@@ -59,7 +60,7 @@ try
         portaBanco = args[indexPorta + 1];
         Console.WriteLine($"Utilizando argumento {portaBanco} como porta do banco de dados");
     }
-    
+
     if (indexSenha != -1)
     {
         senha = args[indexSenha + 1];
@@ -68,7 +69,8 @@ try
 }
 catch
 {
-    Console.WriteLine("Foram fornecidos argumentos incompativeis para o endereco ou porta do banco de dados. Favor utilizar o esquema \"--endereco {endereco} --porta {porta}\" ou \"-e {endereco} -p {porta}\".");
+    Console.WriteLine(
+        "Foram fornecidos argumentos incompativeis para o endereco ou porta do banco de dados. Favor utilizar o esquema \"--endereco {endereco} --porta {porta}\" ou \"-e {endereco} -p {porta}\".");
     Console.ReadKey();
     return 3;
 }
@@ -79,7 +81,7 @@ try
 {
     ConectaBanco(enderecoBanco, portaBanco);
     GeraInterface();
-    if (senha != String.Empty)
+    if (senha != string.Empty)
     {
         ExecutaMkPasswd();
         ExibeInfo();
@@ -103,20 +105,24 @@ finally
     Console.WriteLine("\nPrograma finalizado, digite qualquer tecla para encerrar.");
     Console.ReadKey();
 }
-void GeraInterface(){
+
+void GeraInterface()
+{
     Console.Write("OK");
     Console.WriteLine("\nDigite a nova senha");
     senha ??= Console.ReadLine();
     Console.WriteLine();
 }
+
 void ConectaBanco(string? endereco, string? porta)
 {
-    if (endereco == String.Empty)
+    if (endereco == string.Empty)
     {
         endereco = "localhost";
         Console.Write("Endereco invalido, utilizando endereco padrao localhost...");
     }
-    if ((porta == String.Empty) || (Int32.TryParse(porta, out int portaParseado) == false))
+
+    if (porta == string.Empty || int.TryParse(porta, out var portaParseado) == false)
     {
         porta = Convert.ToString(27117);
         Console.Write("Porta invalida, utilizando porta padrao 27117...");
@@ -140,8 +146,8 @@ void ExecutaMkPasswd()
 {
     var process = new Process();
     var startinfo = new ProcessStartInfo();
-    byte[] binaryData = UnifiReset.Properties.Resources.mkpasswd;
-    string tempFilePath = Path.Combine(Path.GetTempPath(), "mkpasswd.exe");
+    var binaryData = UnifiReset.Properties.Resources.mkpasswd;
+    var tempFilePath = Path.Combine(Path.GetTempPath(), "mkpasswd.exe");
     File.WriteAllBytes(tempFilePath, binaryData);
     startinfo.FileName = tempFilePath;
     startinfo.UseShellExecute = false;
@@ -160,4 +166,5 @@ void ExibeInfo()
     var update = Builders<BsonDocument>.Update.Set("x_shadow", senhaCriptografada);
     collection?.UpdateOne(filter, update);
 }
+
 return 0;

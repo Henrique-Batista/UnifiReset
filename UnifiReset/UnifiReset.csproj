@@ -1,45 +1,45 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <OutputType>Exe</OutputType>
-    <TargetFramework>net8.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-	<PublishDir>exe\</PublishDir>
-	<PublishProtocol>FileSystem</PublishProtocol>
-	<_TargetId>Folder</_TargetId>
-	<TargetFramework>net8.0</TargetFramework>
-	<RuntimeIdentifier>win-x64</RuntimeIdentifier>
-	<SelfContained>true</SelfContained>
-	<PublishSingleFile>true</PublishSingleFile>
-	<PublishReadyToRun>false</PublishReadyToRun>
-	<PublishTrimmed>false</PublishTrimmed>
-  </PropertyGroup>
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <PublishDir>exe\</PublishDir>
+        <PublishProtocol>FileSystem</PublishProtocol>
+        <_TargetId>Folder</_TargetId>
+        <TargetFramework>net8.0</TargetFramework>
+        <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+        <SelfContained>true</SelfContained>
+        <PublishSingleFile>true</PublishSingleFile>
+        <PublishReadyToRun>false</PublishReadyToRun>
+        <PublishTrimmed>false</PublishTrimmed>
+    </PropertyGroup>
 
-  <ItemGroup>
-	<Compile Remove="exe\**" />
-	<EmbeddedResource Remove="exe\**" />
-	<None Remove="exe\**" />
-  </ItemGroup>
-	
-  <ItemGroup>
-    <PackageReference Include="MongoDB.Driver" Version="2.29.0" />
-  </ItemGroup>
+    <ItemGroup>
+        <Compile Remove="exe\**"/>
+        <EmbeddedResource Remove="exe\**"/>
+        <None Remove="exe\**"/>
+    </ItemGroup>
 
-  <ItemGroup>
-    <Compile Update="Properties\Resources.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-  </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="MongoDB.Driver" Version="2.29.0"/>
+    </ItemGroup>
 
-  <ItemGroup>
-    <EmbeddedResource Update="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
-  </ItemGroup>
+    <ItemGroup>
+        <Compile Update="Properties\Resources.Designer.cs">
+            <DesignTime>True</DesignTime>
+            <AutoGen>True</AutoGen>
+            <DependentUpon>Resources.resx</DependentUpon>
+        </Compile>
+    </ItemGroup>
+
+    <ItemGroup>
+        <EmbeddedResource Update="Properties\Resources.resx">
+            <Generator>ResXFileCodeGenerator</Generator>
+            <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </EmbeddedResource>
+    </ItemGroup>
 
 </Project>
