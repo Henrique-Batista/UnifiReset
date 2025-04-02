@@ -42,4 +42,4 @@
 
 
 - Para realizar o build do aplicativo, e necessario baixar e instalar a ultima versao do .Net 9 SDK, clonar ou baixar este repositorio git, abrir a pasta do UnifiAccess ou UnifiReset no terminal e digitar "dotnet publish". Isto criara uma pasta chamada exe\, com o binario resultado da compilacao.
-- Para executar este aplicativo nao e necessario o runtime do .Net 8 instalado, ele ja vem embutido.
+- Para executar este aplicativo nao e necessario o runtime do .Net 9 instalado, ele ja vem embutido.
