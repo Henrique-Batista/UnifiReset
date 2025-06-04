@@ -1,6 +1,6 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Driver;
-using System.Diagnostics;
+using CryptSharp.Core;
 
 string? enderecoBanco = null;
 string? portaBanco = null;
@@ -146,18 +146,7 @@ void ConectaBanco(string? endereco, string? porta)
 
 void ExecutaMkPasswd()
 {
-    var process = new Process();
-    var startinfo = new ProcessStartInfo();
-    var binaryData = UnifiReset.Properties.Resources.mkpasswd;
-    var tempFilePath = Path.Combine(Path.GetTempPath(), "mkpasswd.exe");
-    File.WriteAllBytes(tempFilePath, binaryData);
-    startinfo.FileName = tempFilePath;
-    startinfo.UseShellExecute = false;
-    startinfo.Arguments = $"-hash sha512 -salt \"9Ter1EZ9$lSt6\" -password \"{senha}\"";
-    startinfo.RedirectStandardOutput = true;
-    process.StartInfo = startinfo;
-    process.Start();
-    senhaCriptografada = process.StandardOutput.ReadToEnd().Replace("\n", "").Replace("\r", "");
+    senhaCriptografada = Crypter.Sha512.Crypt(senha!,"$6$9Ter1EZ9");
 }
 
 void ExibeInfo()
