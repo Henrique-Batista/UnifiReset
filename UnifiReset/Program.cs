@@ -82,7 +82,11 @@ Console.Write("Tentando conectar no banco...");
 try
 {
     ConectaBanco(enderecoBanco, portaBanco);
-    GeraInterface();
+    if (senha == null)
+    {
+        GeraInterface();
+    }
+
     if (senha != string.Empty)
     {
         ExecutaMkPasswd();

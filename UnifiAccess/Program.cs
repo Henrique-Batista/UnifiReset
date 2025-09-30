@@ -1,5 +1,6 @@
 ﻿using Spectre.Console.Cli;
 using UnifiAccess.TUI;
+using UnifiAccess.TUI.Commands;
 
 var app = new CommandApp<SshCli>();
 app.WithDescription(
