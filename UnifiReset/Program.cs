@@ -97,19 +97,20 @@ catch (TimeoutException)
 {
     Console.WriteLine(
         "\nHouve um problema para se conectar ao banco, por favor verifique se ele esta online, se o endereco esta correto e se esta funcionando na porta informada.");
-    Console.ReadKey();
     return 1;
 }
 catch (Exception)
 {
     Console.WriteLine("\nHouve algum problema na aplicacao, por favor contate o desenvolvedor.");
-    Console.ReadKey();
     return 2;
 }
 finally
 {
-    Console.WriteLine("\nPrograma finalizado, digite qualquer tecla para encerrar.");
-    Console.ReadKey();
+    if (indexSenha == -1)
+    {
+        Console.WriteLine("\nPrograma finalizado, digite qualquer tecla para encerrar.");
+        Console.ReadKey();
+    }
 }
 
 void GeraInterface()
